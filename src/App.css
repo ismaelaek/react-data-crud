@@ -1,0 +1,13 @@
+th {
+	text-align: left;
+}
+
+#add-form input[type="text"] {
+	border: solid gary 1px;
+	border-radius: 5px;
+	background-color: #e1e1e1;
+	height: 30px;
+	margin-top: 5px;
+	outline: none;
+	padding-left: 10px;
+}
