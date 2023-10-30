@@ -4,8 +4,9 @@ import { message } from "antd";
 import Header from "./header";
 let AddUser = () => {
     const emailReg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    const nameReg = /^[A-Za-z]{3,}$/;
+    const nameReg = /^[A-Za-z ]{3,}$/;
     const usernameReg = /^[A-Za-z0-9_]{6,}$/;
+    const [emails, setEmails] = useState([]);
     const [user, setUser] = useState({
         name: '',
         username: '',
@@ -17,27 +18,72 @@ let AddUser = () => {
             value = e.target.value;
         setUser({...user, [tarName]: value})
     }
+    useEffect(() => {
+        let getEmails = async () => {
+            try {
+                const response = await axios.get('http://localhost:3006/users');
+                console.log(response.data)
+                if (response.data && response.data.length > 0) {
+                    let data = []
+                    data = response.data.map(user => user.email);
+                    setEmails(data);
+                } else {
+                    console.log('ikhaan saf')
+                }
+            } catch (err) {
+                console.log(err)
+            }
+        }
+        getEmails()
+    }, [])
     let submitHandler = (e) => {
-        e.preventDefault();
-        if (!emailReg.test(user.email) || !nameReg.test(user.name) || !usernameReg.test(user.username)) {
-        message.error('Invalid email address');
-        } else {
-            setIsLoading(true);
-            axios.post('http://localhost:3006/users', user)
-                .then(() => {
-                    message.success('User added successfully');
-                    setUser({
+    e.preventDefault();
+    if (
+        user.name.trim() === '' ||
+        user.username.trim() === '' ||
+        user.email.trim() === ''
+    ) {
+        message.error('Please fill in all the fields');
+    } else {
+        switch (true) {
+            case !nameReg.test(user.name):
+                message.error(
+                    "Name must be 3 characters long and shouldn't contain letters or numbers"
+                );
+                break;
+            case !usernameReg.test(user.username):
+                message.error(
+                    'Username must be 6 characters long and can contain letters or numbers'
+                );
+                break;
+            case !emailReg.test(user.email):
+                message.error('Please enter a valid email address');
+                break;
+            case emails.includes(user.email):
+                message.warning('This email is already in use');
+                break;
+            default:
+                setIsLoading(true);
+                axios
+                    .post('http://localhost:3006/users', user)
+                    .then(() => {
+                        message.success('User added successfully');
+                        setUser({
                             name: '',
                             username: '',
-                            email : ''
-                        })
-                    setIsLoading(false);
-                }).catch(() => {
-                    message.error("Can't add user, Please check your internet connection");
-                    setIsLoading(false);
-                })
+                            email: '',
+                        });
+                        setIsLoading(false);
+                    })
+                    .catch(() => {
+                        message.error(
+                            "Can't add user, Please check your internet connection"
+                        );
+                        setIsLoading(false);
+                    });
         }
-    };
+    }
+};
     return (
         <div className=" grid-cols-1">
             <Header title='Add User' />

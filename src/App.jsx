@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import UsersList from './Components/UsersList'
 import AddUser from './Components/AddUser'
@@ -8,8 +7,6 @@ import ErrorHandler from './Components/errorHandler'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <main className=' px-20'>
       <BrowserRouter>
