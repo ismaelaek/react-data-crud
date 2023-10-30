@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { message } from "antd";
 import Header from "./header";
 let AddUser = () => {
     const emailReg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const nameReg = /^[A-Za-z]{3,}$/;
+    const usernameReg = /^[A-Za-z0-9_]{6,}$/;
     const [user, setUser] = useState({
         name: '',
         username: '',
         email : ''
     })
+    const [isLoading, setIsLoading] = useState(false);
     let changeHandler = (e) => {
         let tarName = e.target.name,
             value = e.target.value;
@@ -16,13 +19,23 @@ let AddUser = () => {
     }
     let submitHandler = (e) => {
         e.preventDefault();
-        if (!emailReg.test(user.email)) {
+        if (!emailReg.test(user.email) || !nameReg.test(user.name) || !usernameReg.test(user.username)) {
         message.error('Invalid email address');
         } else {
-        axios.post('http://localhost:3006/users', user)
-            .then(() => {
-            message.success('User added successfully');
-            })
+            setIsLoading(true);
+            axios.post('http://localhost:3006/users', user)
+                .then(() => {
+                    message.success('User added successfully');
+                    setUser({
+                            name: '',
+                            username: '',
+                            email : ''
+                        })
+                    setIsLoading(false);
+                }).catch(() => {
+                    message.error("Can't add user, Please check your internet connection");
+                    setIsLoading(false);
+                })
         }
     };
     return (
@@ -59,7 +72,8 @@ let AddUser = () => {
                 <input
                     type="submit"
                     value='Add'
-                    className=" my-10 h-8 cursor-pointer text-white duration-300 bg-green-600 hover:bg-green-500 "
+                    className=" my-10 h-8 text-white duration-300 bg-green-600 hover:bg-green-500 "
+                    style={{ cursor: isLoading ? 'wait' : 'pointer' }}
                 />
             </form>
         </div>

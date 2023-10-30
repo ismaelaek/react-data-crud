@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import UsersList from './Components/UsersList'
 import AddUser from './Components/AddUser'
 import EditUser from './Components/EditUser'
+import ErrorHandler from './Components/errorHandler'
 
 import './App.css'
 
@@ -13,9 +14,10 @@ function App() {
     <main className=' px-20'>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<UsersList/>}></Route>
-          <Route path='/AddUser' element={<AddUser/>}></Route>
-          <Route path='/EditUser/:id' element={<EditUser/>}></Route>
+          <Route path="/" element={<UsersList />} />
+          <Route path="/AddUser" element={<AddUser />} />
+          <Route path="/EditUser/:id" element={<EditUser />} />
+          <Route path="*" element={<ErrorHandler code='ERR_BAD_REQUEST'/>} />
         </Routes>
       </BrowserRouter>
     </main>
