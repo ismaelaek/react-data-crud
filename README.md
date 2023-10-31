@@ -1,7 +1,7 @@
 
 # React Task Manager App
 
-A simple CRUD (Create, Read, Update, Delete) project for school to manage user data, created using Vite + React.
+A simple task manager project for school to manage tasks and users data, created using Vite + React.
 
 ## Installation
 
@@ -94,7 +94,7 @@ These commands will install the necessary dependencies for the project.
     ```
 ## Usage
 
-The project, built with Vite + React, allows you to perform basic CRUD operations on a list of users. You can view, add, edit, and delete user data through the user interface provided by the application.
+The project, built with Vite + React, allows you to perform basic CRUD operations on a list of users and tasks. You can view, add, edit, and delete user or task data through the user interface provided by the application.
 
 Feel free to explore the features and functionalities of the application.
 
