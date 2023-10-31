@@ -5,7 +5,8 @@ import { message } from "antd";
 import Header from "./header";
 import ErrorHandler from "./errorHandler";
 let EditUser = () => {
-    const emailReg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const nameReg = /^[A-Za-z ]{3,}$/;
+    const usernameReg = /^[A-Za-z0-9_]{6,}$/;
     const { id } = useParams();
     const [user, setUser] = useState({
         name: '',
@@ -39,13 +40,29 @@ let EditUser = () => {
     }
     let submitHandler = (e) => {
         e.preventDefault();
-        if (!emailReg.test(user.email)) {
-            message.error('Invalid email address');
+        if (
+            user.name.trim() === '' ||
+            user.username.trim() === ''
+        ) {
+        message.error('Please fill in all the fields');
         } else {
-            axios.put(`http://localhost:3006/users/${id}`,user)
+            switch (true) {
+                case !nameReg.test(user.name):
+                    message.error(
+                        "Name must be 3 characters long and shouldn't contain letters or numbers"
+                    );
+                    break;
+                case !usernameReg.test(user.username):
+                    message.error(
+                        'Username must be 6 characters long and can contain letters or numbers'
+                    );
+                    break;
+                default:
+                    axios.put(`http://localhost:3006/users/${id}`,user)
                 .then(() => {
                     message.success('User modified successfully');
                 });
+            }
         }
     };
     if (error !== '') {
