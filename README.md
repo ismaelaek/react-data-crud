@@ -16,7 +16,7 @@ To run the project, follow these steps:
 2. Navigate to the project directory:
 
     ```bash
-    cd users-crud
+    cd react-task-manager
     ```
 
 3. Install the dependencies:
