@@ -1,5 +1,5 @@
 
-# Users CRUD Project
+# React Task Manager App
 
 A simple CRUD (Create, Read, Update, Delete) project for school to manage user data, created using Vite + React.
 
