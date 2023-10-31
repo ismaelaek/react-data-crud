@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import UsersList from './Components/UsersList'
-import AddUser from './Components/AddUser'
-import EditUser from './Components/EditUser'
-import ErrorHandler from './Components/errorHandler'
+import UsersList from './Components/Users/UsersList'
+import AddUser from './Components/Users/AddUser'
+import EditUser from './Components/Users/EditUser'
+import ErrorHandler from './Components/Users/errorHandler'
 
 import './App.css'
 
