@@ -64,8 +64,7 @@ let AddUser = () => {
                 break;
             default:
                 setIsLoading(true);
-                axios
-                    .post('http://localhost:3006/users', user)
+                axios.post('http://localhost:3006/users', user)
                     .then(() => {
                         message.success('User added successfully');
                         setUser({
